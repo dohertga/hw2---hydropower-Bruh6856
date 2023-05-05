@@ -1,0 +1,80 @@
+#######################################################################################################################
+# Program Filename: Hydropower HW 1B
+# Author: Gavin Doherty
+# Date: 5/4/23
+# Description:
+# Input: Energy Use Terrawatt-Hours file
+# Output: World power, Hydro power, wind power, coal power, with both numbers and percents
+#######################################################################################################################
+import pandas as pd
+file_path = r"C:\Users\dohertga\Downloads\energy_use_terrawatthours.csv"
+worldpower = pd.read_csv(file_path)
+worldpower
+import numpy as np
+
+# Defining arrays
+year1 = worldpower.loc[:, 'year'] #show only year column using .loc function, year array
+power_type1 = worldpower.loc[:,'variable'] #shows only year column, power type array, duh
+power1 = worldpower.loc[:,'generation_twh'] #power array
+
+def calc_2000(cl_x, co_x, fo_x, hy_x, wn_x):
+    for x in range(len(year1)): # Defining values needed from 2000
+        if year1[x] == 2000 and power_type1[x] == 'Clean':
+            cl_x = power1[x]
+        if year1[x] == 2000 and power_type1[x] == 'Coal':
+            co_x = power1[x]
+        if year1[x] == 2000 and power_type1[x] == 'Fossil':
+            fo_x = power1[x]
+        if year1[x] == 2000 and power_type1[x] == 'Hydro':
+            hy_x = power1[x]
+        if year1[x] == 2000 and power_type1[x] == 'Wind':
+            wn_x = power1[x]
+    return cl_x, co_x, fo_x, hy_x, wn_x
+gen_x = round(cl_x + fo_x)
+print('The total world power generation in 2000 was', gen_x, 'terawatt-hours')
+
+for x in range(len(year1)): # Defing needed values from 2021
+    if year1[x] == 2021 and power_type1[x] == 'Clean':
+        cl_xxi = power1[x]
+    if year1[x] == 2021 and power_type1[x] == 'Coal':
+        co_xxi = power1[x]
+    if year1[x] == 2021 and power_type1[x] == 'Fossil':
+        fo_xxi = power1[x]
+    if year1[x] == 2021 and power_type1[x] == 'Hydro':
+        hy_xxi = power1[x]
+    if year1[x] == 2021 and power_type1[x] == 'Wind':
+        wn_xxi = power1[x]
+gen_xxi = round(cl_xxi  + fo_xxi)
+print('The total world power generation in 2021 was', gen_xxi, 'terawatt-hours')
+w_gen_p = round((gen_x / gen_xxi) * 100)
+print('Between the years 2000 and 2021, the world power generation increased by', w_gen_p, '%')
+
+for x in range(len(year1)): #Finding the Answers for Hydro power
+    if year1[x] == 2000 and power_type1[x] == 'Hydro':
+        hy_x_p = float(round((power1[x] / gen_x) * 100))
+        print("In the year", year1[x], power1[x], "twh came from hydro accounting for", hy_x_p, '%')
+    if year1[x] == 2021 and power_type1[x] == 'Hydro':
+        hy_xxi_p = float(round((power1[x] / gen_xxi) * 100))
+        print("In the year", year1[x], power1[x], "twh came from hydro accounting for", hy_xxi_p, '%')
+hy_gen_p = round((hy_x/hy_xxi) * 100)
+print('Between the years 2000 and 2021, the Hydro power generation increased by', hy_gen_p, '%')
+
+for x in range(len(year1)): # Finding the answers for Wind power
+    if year1[x] == 2000 and power_type1[x] == 'Wind':
+        wn_x_p =round((power1[x] / gen_x) * 100)  
+        print("In the year", year1[x], ",", power1[x], "twh came from wind accounting for", wn_x_p, '%')
+    if year1[x] == 2021 and power_type1[x] == 'Wind':
+        wn_xxi_p = round((power1[x] / gen_xxi) * 100)
+        print("In the year", year1[x], ",", power1[x], "twh came from wind accounting for",wn_xxi_p, '%')
+wn_gen_p = round((wn_x/wn_xxi) * 100)
+print('Between the years 2000 and 2021, the wind power generation increased by', wn_gen_p, '%')
+
+for x in range(len(year1)): # Finding the answers for Coal power
+    if year1[x] == 2000 and power_type1[x] == 'Coal':
+        co_x_p =round((power1[x] / gen_x) * 100)
+        print("In the year", year1[x], ",", power1[x], "twh came from coal accounting for", co_x_p, '%')
+    if year1[x] == 2021 and power_type1[x] == 'Coal':
+        co_xxi_p = round((power1[x] / gen_xxi) * 100)
+        print("In the year", year1[x], ",", power1[x], "twh came from coal accounting for", co_xxi_p, '%')
+co_gen_p = round((co_x/co_xxi) * 100)
+print('Between the years 2000 and 2021, the coal power generation increased by', co_gen_p, '%')
